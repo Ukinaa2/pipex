@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gguedes <gguedes@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/07 12:24:28 by gguedes           #+#    #+#             */
-/*   Updated: 2022/07/11 10:35:34 by gguedes          ###   ########.fr       */
+/*   Created: 2022/05/09 11:38:29 by gguedes           #+#    #+#             */
+/*   Updated: 2022/06/09 20:56:56 by gguedes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-#define PIPEX_H
+#include "libft.h"
 
-#include "libftprintf/ft_printf.h"
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdlib.h>
-
-#endif
+int	ft_putchar_fd(char c, int fd)
+{
+	return (write(fd, &c, 1));
+}

@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gguedes <gguedes@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/07 12:24:28 by gguedes           #+#    #+#             */
-/*   Updated: 2022/07/11 10:35:34 by gguedes          ###   ########.fr       */
+/*   Created: 2022/05/14 20:42:29 by gguedes           #+#    #+#             */
+/*   Updated: 2022/06/09 19:56:08 by gguedes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-#define PIPEX_H
+#include "libft.h"
 
-#include "libftprintf/ft_printf.h"
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdlib.h>
+char	*ft_strchr(const char *s, int c)
+{
+	char	chr;
+	char	*cs;
 
-#endif
+	chr = c;
+	cs = (char *)s;
+	while (*cs && *cs != chr)
+		cs++;
+	if (*cs != chr)
+		return (NULL);
+	else
+		return (cs);
+}

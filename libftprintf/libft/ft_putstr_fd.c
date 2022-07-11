@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gguedes <gguedes@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/07 12:24:28 by gguedes           #+#    #+#             */
-/*   Updated: 2022/07/11 10:35:34 by gguedes          ###   ########.fr       */
+/*   Created: 2022/05/09 11:39:46 by gguedes           #+#    #+#             */
+/*   Updated: 2022/06/09 20:57:26 by gguedes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-#define PIPEX_H
+#include "libft.h"
 
-#include "libftprintf/ft_printf.h"
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdlib.h>
-
-#endif
+int	ft_putstr_fd(char *s, int fd)
+{
+	if (!s)
+		return (write(fd, "(null)", 6));
+	return (write(fd, s, ft_strlen(s)));
+}

@@ -1,21 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gguedes <gguedes@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/07 12:24:28 by gguedes           #+#    #+#             */
-/*   Updated: 2022/07/11 10:35:34 by gguedes          ###   ########.fr       */
+/*   Created: 2022/05/09 11:58:16 by gguedes           #+#    #+#             */
+/*   Updated: 2022/06/13 13:21:44 by gguedes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-#define PIPEX_H
+#include "libft.h"
 
-#include "libftprintf/ft_printf.h"
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdlib.h>
+int	ft_putnbr_fd(int n, int fd)
+{
+	int	i;
 
-#endif
+	i = 0;
+	if (n == -2147483648)
+		return (ft_putstr_fd("-2147483648", fd));
+	if (n < 0)
+	{
+		ft_putchar_fd('-', fd);
+		n = -n;
+		i++;
+	}
+	if (n > 9)
+		i += ft_putnbr_fd(n / 10, fd);
+	if (n >= 0)
+		i += ft_putchar_fd((n % 10) + '0', fd);
+	return (i);
+}
