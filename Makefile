@@ -1,8 +1,8 @@
 NAME		=	pipex
 
-LIBFTPRINTF		=	libftprintf.a
+LIBFT		=	libft.a
 
-LIBFTPRINTF_PATH	=	libftprintf/
+LIBFT_PATH	=	libft/
 
 SRC			=	pipex.c
 
@@ -15,18 +15,18 @@ RM			=	rm -f
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	make -C $(LIBFTPRINTF_PATH)
-	cc $(OBJ) $(LIBFTPRINTF_PATH)$(LIBFTPRINTF) -o $(NAME)
+	make -C $(LIBFT_PATH)
+	cc $(OBJ) $(LIBFT_PATH)$(LIBFT) -o $(NAME)
 
 .c.o:
 	$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
 
 clean:
-	make -C $(LIBFTPRINTF_PATH) clean
+	make -C $(LIBFT_PATH) clean
 	$(RM) $(OBJ) $(BONUS_OBJ)
 
 fclean: clean
-	make -C $(LIBFTPRINTF_PATH) fclean
+	make -C $(LIBFT_PATH) fclean
 	$(RM) $(NAME)
 
 re: fclean all

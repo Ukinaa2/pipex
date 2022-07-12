@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_puthex_fd.c                                     :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gguedes <gguedes@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/09 22:12:13 by gguedes           #+#    #+#             */
-/*   Updated: 2022/06/13 13:54:54 by gguedes          ###   ########.fr       */
+/*   Created: 2022/05/09 11:58:16 by gguedes           #+#    #+#             */
+/*   Updated: 2022/06/09 18:09:56 by gguedes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-int	ft_puthex_fd(unsigned long n, char *base, int fd)
+void	ft_putnbr_fd(int n, int fd)
 {
-	int		i;
-
-	i = 0;
-	if (n > 15)
-		i += ft_puthex_fd(n / 16, base, fd);
-	i += ft_putchar_fd(base[n % 16], fd);
-	return (i);
+	if (n == -2147483648)
+		ft_putstr_fd("-2147483648", fd);
+	else if (n < 0)
+	{
+		ft_putchar_fd('-', fd);
+		ft_putnbr_fd(-n, fd);
+	}
+	else if (n > 9)
+		ft_putnbr_fd(n / 10, fd);
+	if (n >= 0)
+		ft_putchar_fd((n % 10) + '0', fd);
 }
