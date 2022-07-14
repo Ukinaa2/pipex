@@ -6,7 +6,7 @@
 /*   By: gguedes <gguedes@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 12:22:25 by gguedes           #+#    #+#             */
-/*   Updated: 2022/07/12 15:32:28 by gguedes          ###   ########.fr       */
+/*   Updated: 2022/07/13 23:47:48 by gguedes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ char	*find_command_path(char *cmd, char **environ)
 
 int	main(int argc, char **argv)
 {
+	int			fd[2];
+	int			fd1;
 	int			pid;
 	char		*path;
 	char		**cmd;
@@ -53,20 +55,37 @@ int	main(int argc, char **argv)
 
 	if (argc != 5)
 		return (0);
+	if (pipe(fd) == -1)
+		return (1);
 	pid = fork();
 	if (pid == -1)
-		return (0);
+		return (1);
 	if (pid == 0)
 	{
+		close(fd[0]);
 		cmd = ft_split(argv[2], ' '); //split cmd
 		path = find_command_path(cmd[0], environ);
 		if (!path)
-			return (0);
-		printf("%s\n", path);
+			return (1);
+		fd1 = open(argv[1], O_RDONLY);
+		if (fd1 == -1)
+			return (1);
+		dup2(fd1, STDIN_FILENO);
 		execve(path, cmd, environ);
 	}
 	else
 	{
+		waitpid(-1, NULL, 0);
+		close(fd[1]);
+		cmd = ft_split(argv[3], ' '); //split cmd
+		path = find_command_path(cmd[0], environ);
+		if (!path)
+			return (1);
+		fd1 = open(argv[5], O_WRONLY | O_CREAT, 0777);
+		if (fd1 == -1)
+			return (1);
+		dup2(fd1, STDOUT_FILENO);
+		execve(path, cmd, environ);
 	}
 	return (0);
 }
