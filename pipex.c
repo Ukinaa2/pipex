@@ -6,7 +6,7 @@
 /*   By: gguedes <gguedes@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 12:22:25 by gguedes           #+#    #+#             */
-/*   Updated: 2022/07/13 23:47:48 by gguedes          ###   ########.fr       */
+/*   Updated: 2022/07/14 12:15:59 by gguedes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,13 @@ char	*find_command_path(char *cmd, char **environ)
 	char		**path;
 
 	i = 0;
-	while (ft_strncmp(environ[i], "PATH=", 5)) //find PATH variable in environ
+	while (ft_strncmp(environ[i], "PATH=", 5))
 		i++;
-	path = ft_split(&environ[i][5], ':'); //create PATH matrix
+	path = ft_split(&environ[i][5], ':');
 	i = 0;
-	while (path[i]) //adds / into all paths
-	{
-		tmp = ft_strjoin(path[i], "/");
-		free(path[i]);
-		path[i] = tmp;
-		i++;
-	}
+	cmd = ft_strjoin("/", cmd);
 	i = 0;
-	while (path[i]) //add cmd into paths and check if it exists
+	while (path[i])
 	{
 		tmp = ft_strjoin(path[i], cmd);
 		free(path[i]);
@@ -46,45 +40,35 @@ char	*find_command_path(char *cmd, char **environ)
 
 int	main(int argc, char **argv)
 {
-	int			fd[2];
-	int			fd1;
 	int			pid;
+	int			fd[2];
 	char		*path;
 	char		**cmd;
 	extern char	**environ;
 
 	if (argc != 5)
-		return (0);
+		return (1);
 	if (pipe(fd) == -1)
 		return (1);
 	pid = fork();
-	if (pid == -1)
-		return (1);
 	if (pid == 0)
 	{
 		close(fd[0]);
-		cmd = ft_split(argv[2], ' '); //split cmd
+		dup2(fd[1], STDOUT_FILENO);
+		fd[0] = open(argv[1], O_RDONLY);
+		dup2(fd[0], STDIN_FILENO);
+		cmd = ft_split(argv[2], ' ');
 		path = find_command_path(cmd[0], environ);
-		if (!path)
-			return (1);
-		fd1 = open(argv[1], O_RDONLY);
-		if (fd1 == -1)
-			return (1);
-		dup2(fd1, STDIN_FILENO);
 		execve(path, cmd, environ);
 	}
 	else
 	{
-		waitpid(-1, NULL, 0);
 		close(fd[1]);
-		cmd = ft_split(argv[3], ' '); //split cmd
+		dup2(fd[0], STDIN_FILENO);
+		fd[1] = open(argv[4], O_WRONLY | O_CREAT);
+		dup2(fd[1], STDOUT_FILENO);
+		cmd = ft_split(argv[3], ' ');
 		path = find_command_path(cmd[0], environ);
-		if (!path)
-			return (1);
-		fd1 = open(argv[5], O_WRONLY | O_CREAT, 0777);
-		if (fd1 == -1)
-			return (1);
-		dup2(fd1, STDOUT_FILENO);
 		execve(path, cmd, environ);
 	}
 	return (0);
