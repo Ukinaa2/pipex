@@ -6,7 +6,7 @@
 /*   By: gguedes <gguedes@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 12:22:25 by gguedes           #+#    #+#             */
-/*   Updated: 2022/07/14 13:26:16 by gguedes          ###   ########.fr       */
+/*   Updated: 2022/07/14 13:51:44 by gguedes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*find_command_path(char *cmd, char **environ)
 	return (NULL);
 }
 
-void	call_execve(char *argv)
+int	call_execve(char *argv)
 {
 	char		*path;
 	char		**cmd;
@@ -46,7 +46,12 @@ void	call_execve(char *argv)
 
 	cmd = ft_split(argv, ' ');
 	path = find_command_path(cmd[0], environ);
-	execve(path, cmd, environ);
+	if (!path)
+	{
+		perror("cmd do not exits.");
+		return (1);
+	}
+	return (execve(path, cmd, environ));
 }
 
 int	main(int argc, char **argv)
@@ -55,17 +60,29 @@ int	main(int argc, char **argv)
 	int			fd[2];
 
 	if (argc != 5)
+	{
+		perror("invalid number of argv");
 		return (1);
+	}
 	if (pipe(fd) == -1)
+	{
+		perror("error creating pipe");
 		return (1);
+	}
 	pid = fork();
 	if (pid == 0)
 	{
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
 		fd[0] = open(argv[1], O_RDONLY);
+		if (fd[0] == -1)
+		{
+			perror("cant open file");
+			return (1);
+		}
 		dup2(fd[0], STDIN_FILENO);
-		call_execve(argv[2]);
+		if (call_execve(argv[2]))
+			return (1);
 	}
 	else
 	{
@@ -73,7 +90,8 @@ int	main(int argc, char **argv)
 		dup2(fd[0], STDIN_FILENO);
 		fd[1] = open(argv[4], O_CREAT | O_WRONLY | O_TRUNC, 0777);
 		dup2(fd[1], STDOUT_FILENO);
-		call_execve(argv[3]);
+		if (call_execve(argv[3]))
+			return (1);
 	}
 	return (0);
 }
