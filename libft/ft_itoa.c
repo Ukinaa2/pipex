@@ -6,48 +6,61 @@
 /*   By: gguedes <gguedes@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 11:26:45 by gguedes           #+#    #+#             */
-/*   Updated: 2022/06/12 19:48:20 by gguedes          ###   ########.fr       */
+/*   Updated: 2022/05/16 18:44:07 by gguedes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_count_size(int n)
+static int	digits(int n)
 {
-	int	size;
+	int	i;
 
-	size = 0;
-	if (n < 0)
-		size++;
-	while (n > 9 || n < -9)
+	i = 0;
+	if (n == -2147483648)
+		return (11);
+	else if (n < 0)
+	{
+		n = -n;
+		i++;
+	}
+	while (n > 9)
 	{
 		n /= 10;
-		size++;
+		i++;
 	}
-	return (size + 1);
+	return (i + 1);
+}
+
+static int	create_str(unsigned int n, int i, char *str)
+{
+	while (i > 0)
+	{
+		str[i] = (n % 10) + '0';
+		n /= 10;
+		i--;
+	}
+	return (n);
 }
 
 char	*ft_itoa(int n)
 {
+	int				i;
+	char			*str;
 	unsigned int	un;
-	int				size;
-	char			*new_str;
 
-	size = ft_count_size(n);
-	new_str = (char *)malloc((size + 1) * sizeof(char));
-	if (!new_str)
-		return (NULL);
-	new_str[size] = '\0';
+	i = digits(n);
+	str = (char *)malloc((i + 1) * sizeof(char));
+	if (!str)
+		return (0);
+	str[i--] = 0;
 	if (n < 0)
-		un = -n;
-	else
-		un = n;
-	while (size--)
 	{
-		new_str[size] = un % 10 + '0';
-		un /= 10;
+		str[0] = '-';
+		un = -n;
+		create_str(un, i, str);
 	}
-	if (n < 0)
-		new_str[0] = '-';
-	return (new_str);
+	else
+		str[0] = (create_str(n, i, str) % 10) + '0';
+	return (str);
 }

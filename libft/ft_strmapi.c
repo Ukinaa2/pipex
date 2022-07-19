@@ -6,7 +6,7 @@
 /*   By: gguedes <gguedes@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 13:09:55 by gguedes           #+#    #+#             */
-/*   Updated: 2022/06/09 18:14:35 by gguedes          ###   ########.fr       */
+/*   Updated: 2022/05/17 12:03:41 by gguedes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
 	int		i;
-	char	*new_str;
+	char	*str;
 
 	if (!s)
-		return (NULL);
+		return (0);
 	i = 0;
-	new_str = (char *)malloc((ft_strlen(s) + 1) * sizeof(char));
-	if (!new_str)
-		return (NULL);
+	str = (char *)malloc((ft_strlen(s) + 1) * sizeof(char));
+	if (!str)
+		return (0);
 	while (s[i])
 	{
-		new_str[i] = f(i, s[i]);
+		str[i] = f(i, s[i]);
 		i++;
 	}
-	new_str[i] = '\0';
-	return (new_str);
+	str[i] = 0;
+	return (str);
 }

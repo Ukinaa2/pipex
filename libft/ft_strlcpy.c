@@ -6,7 +6,7 @@
 /*   By: gguedes <gguedes@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 16:31:59 by gguedes           #+#    #+#             */
-/*   Updated: 2022/06/09 17:45:19 by gguedes          ###   ########.fr       */
+/*   Updated: 2022/05/14 17:08:02 by gguedes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,6 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 		dst[i] = src[i];
 		i++;
 	}
-	dst[i] = '\0';
+	dst[i] = 0;
 	return (ft_strlen(src));
 }

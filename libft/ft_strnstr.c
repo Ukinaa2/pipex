@@ -6,7 +6,7 @@
 /*   By: gguedes <gguedes@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 11:08:21 by gguedes           #+#    #+#             */
-/*   Updated: 2022/06/09 19:54:35 by gguedes          ###   ########.fr       */
+/*   Updated: 2022/05/22 19:51:22 by gguedes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,5 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 	}
 	if (!little[0])
 		return ((char *)big);
-	return (NULL);
+	return (0);
 }

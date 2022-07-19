@@ -6,7 +6,7 @@
 /*   By: gguedes <gguedes@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 20:42:29 by gguedes           #+#    #+#             */
-/*   Updated: 2022/06/09 19:56:08 by gguedes          ###   ########.fr       */
+/*   Updated: 2022/05/18 13:35:20 by gguedes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,10 @@
 
 char	*ft_strchr(const char *s, int c)
 {
-	char	chr;
-	char	*cs;
-
-	chr = c;
-	cs = (char *)s;
-	while (*cs && *cs != chr)
-		cs++;
-	if (*cs != chr)
-		return (NULL);
+	while (*s && (char)*s != (char)c)
+		s++;
+	if ((char)*s != (char)c)
+		return (0);
 	else
-		return (cs);
+		return ((char *)s);
 }

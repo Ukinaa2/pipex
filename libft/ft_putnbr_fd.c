@@ -6,7 +6,7 @@
 /*   By: gguedes <gguedes@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 11:58:16 by gguedes           #+#    #+#             */
-/*   Updated: 2022/06/09 18:09:56 by gguedes          ###   ########.fr       */
+/*   Updated: 2022/05/10 11:27:26 by gguedes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,5 @@ void	ft_putnbr_fd(int n, int fd)
 	else if (n > 9)
 		ft_putnbr_fd(n / 10, fd);
 	if (n >= 0)
-		ft_putchar_fd((n % 10) + '0', fd);
+		ft_putchar_fd((n % 10) + 48, fd);
 }

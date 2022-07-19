@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcmp.c                                        :+:      :+:    :+:   */
+/*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gguedes <gguedes@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/15 10:55:09 by gguedes           #+#    #+#             */
-/*   Updated: 2022/05/17 10:51:39 by gguedes          ###   ########.fr       */
+/*   Created: 2022/07/18 13:19:42 by gguedes           #+#    #+#             */
+/*   Updated: 2022/07/19 13:17:34 by gguedes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "pipex.h"
 
-int	ft_memcmp(const void *s1, const void *s2, size_t n)
+int	error_case(int error_value)
 {
-	size_t	i;
-
-	i = 0;
-	while (i < n)
-	{
-		if (*(unsigned char *)(s1 + i) != *(unsigned char *)(s2 + i))
-			return (*(unsigned char *)(s1 + i) - *(unsigned char *)(s2 + i));
-		i++;
-	}
-	return (0);
+	if (error_value == 1)
+		perror("Invalid number of argvs");
+	else if (error_value == 2)
+		perror("Failed to initialize pipe");
+	else if (error_value == 3)
+		perror("Failed to fork");
+	else if (error_value == 4)
+		perror("Invalid fd");
+	else if (error_value == 5)
+		perror("Error executing command");
+	return (error_value);
 }

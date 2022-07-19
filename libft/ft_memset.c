@@ -6,7 +6,7 @@
 /*   By: gguedes <gguedes@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 12:12:52 by gguedes           #+#    #+#             */
-/*   Updated: 2022/06/09 19:42:30 by gguedes          ###   ########.fr       */
+/*   Updated: 2022/05/14 12:40:07 by gguedes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,7 @@
 
 void	*ft_memset(void *s, int c, size_t n)
 {
-	char	*cs;
-
-	cs = s;
 	while (n--)
-		cs[n] = c;
+		*(char *)(s + n) = c;
 	return (s);
 }

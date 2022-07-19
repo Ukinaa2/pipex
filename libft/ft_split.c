@@ -6,7 +6,7 @@
 /*   By: gguedes <gguedes@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 13:52:52 by gguedes           #+#    #+#             */
-/*   Updated: 2022/06/09 18:42:33 by gguedes          ###   ########.fr       */
+/*   Updated: 2022/05/17 12:03:15 by gguedes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	*create_subs(char const *s, char c)
 {
 	int		i;
 	int		j;
-	char	*new_str;
+	char	*sub;
 
 	i = 0;
 	j = 0;
@@ -38,16 +38,16 @@ static char	*create_subs(char const *s, char c)
 		s++;
 	while (s[i] && s[i] != c)
 		i++;
-	new_str = (char *)malloc((i + 1) * sizeof(char));
-	if (!new_str)
-		return (NULL);
+	sub = (char *)malloc((i + 1) * sizeof(char));
+	if (sub == 0)
+		return (0);
 	while (j < i)
 	{
-		new_str[j] = s[j];
+		sub[j] = s[j];
 		j++;
 	}
-	new_str[j] = '\0';
-	return (new_str);
+	sub[j] = 0;
+	return (sub);
 }
 
 static char const	*next_sub(char const *s, char c)
@@ -68,18 +68,18 @@ char	**ft_split(char const *s, char c)
 	char	**array;
 
 	if (!s)
-		return (NULL);
+		return (0);
 	i = 0;
 	n_subs = count_subs(s, c);
 	array = (char **)malloc((n_subs + 1) * sizeof(char *));
 	if (!array)
-		return (NULL);
+		return (0);
 	while (i < n_subs)
 	{
 		array[i] = create_subs(s, c);
 		s = next_sub(s, c);
 		i++;
 	}
-	array[i] = NULL;
+	array[i] = 0;
 	return (array);
 }
