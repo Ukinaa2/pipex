@@ -6,7 +6,7 @@
 /*   By: gguedes <gguedes@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 12:24:28 by gguedes           #+#    #+#             */
-/*   Updated: 2022/07/19 13:20:16 by gguedes          ###   ########.fr       */
+/*   Updated: 2022/07/21 10:35:18 by gguedes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <sys/wait.h>
 # include <string.h>
 # include <stdio.h>
+# include <errno.h>
 
 int	error_case(int error_value);
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   errors_case.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gguedes <gguedes@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 13:19:42 by gguedes           #+#    #+#             */
-/*   Updated: 2022/07/20 10:19:49 by gguedes          ###   ########.fr       */
+/*   Updated: 2022/07/21 10:34:31 by gguedes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,5 @@ int	error_case(int error_value)
 		perror("Error value = 4: Invalid fd");
 	else if (error_value == 5)
 		perror("Error value = 5: Error executing command");
-	return (error_value);
+	return (errno);
 }

@@ -4,7 +4,7 @@ LIBFT		=	libft.a
 
 LIBFT_PATH	=	libft/
 
-SRC			=	pipex.c errors.c
+SRC			=	pipex.c errors_case.c
 
 OBJ			=	$(SRC:.c=.o)
 

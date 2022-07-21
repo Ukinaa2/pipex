@@ -6,11 +6,12 @@
 /*   By: gguedes <gguedes@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 13:52:52 by gguedes           #+#    #+#             */
-/*   Updated: 2022/07/20 13:21:10 by gguedes          ###   ########.fr       */
+/*   Updated: 2022/07/21 11:07:09 by gguedes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 static int	count_subs(char const *s, char c)
 {
@@ -19,9 +20,17 @@ static int	count_subs(char const *s, char c)
 	i = 0;
 	while (*s++)
 	{
-		if (*s == 34 || *s == 39)
+		if (*s == 34)
 		{
-			while ((*s++ != 34 || *s++ != 39) && *s)
+			s++;
+			while (*s != 34 && *s)
+				s++;
+			i++;
+		}
+		else if (*s == 39)
+		{
+			s++;
+			while (*s != 39 && *s)
 				s++;
 			i++;
 		}
@@ -56,14 +65,12 @@ static size_t	calc_len(char const *s, char c)
 		i++;
 		while (s[i] != 34)
 			i++;
-		i++;
 	}
-	if (s[i] == 39)
+	else if (s[i] == 39)
 	{
 		i++;
 		while (s[i] != 39)
 			i++;
-		i++;
 	}
 	else
 		while (s[i] && s[i] != c && s[i] != 34 && s[i] != 39)
@@ -90,7 +97,7 @@ char	**ft_split(char const *s, char c)
 		s += start(s, c);
 		len = calc_len(s, c);
 		array[i] = ft_substr(s, 0, len);
-		array[i] = ft_strtrim(array[i], "\'\"");
+		array[i] = ft_strtrim(array[i], "'\"");
 		s += len;
 		i++;
 	}
@@ -101,7 +108,7 @@ char	**ft_split(char const *s, char c)
 /*int	main(void)
 {
 	int	i;
-	char *s = "grep \"rato' asda' \"\"";
+	char *s = "grep \"'\"";
 	char **array;
 
 	i = 0;
