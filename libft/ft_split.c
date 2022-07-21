@@ -6,7 +6,7 @@
 /*   By: gguedes <gguedes@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 13:52:52 by gguedes           #+#    #+#             */
-/*   Updated: 2022/05/17 12:03:15 by gguedes          ###   ########.fr       */
+/*   Updated: 2022/07/20 13:21:10 by gguedes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,53 +17,64 @@ static int	count_subs(char const *s, char c)
 	int	i;
 
 	i = 0;
-	while (*s)
+	while (*s++)
 	{
-		if (*s != c && (*(s + 1) == c || *(s + 1) == 0))
+		if (*s == 34 || *s == 39)
+		{
+			while ((*s++ != 34 || *s++ != 39) && *s)
+				s++;
 			i++;
-		s++;
+		}
+		else if (*s != c && (*(s + 1) == c || *(s + 1) == '\0')
+			&& *(s + 1) != 34 && *(s + 1) != 39)
+		{
+			while (*s == c && *s)
+				s++;
+			i++;
+		}
 	}
 	return (i);
 }
 
-static char	*create_subs(char const *s, char c)
+static unsigned int	start(char const *s, char c)
 {
-	int		i;
-	int		j;
-	char	*sub;
+	int	i;
 
 	i = 0;
-	j = 0;
-	while (*s && *s == c)
-		s++;
-	while (s[i] && s[i] != c)
+	while (s[i] && s[i] == c)
 		i++;
-	sub = (char *)malloc((i + 1) * sizeof(char));
-	if (sub == 0)
-		return (0);
-	while (j < i)
-	{
-		sub[j] = s[j];
-		j++;
-	}
-	sub[j] = 0;
-	return (sub);
+	return (i);
 }
 
-static char const	*next_sub(char const *s, char c)
+static size_t	calc_len(char const *s, char c)
 {
-	while (*s)
+	int	i;
+
+	i = 0;
+	if (s[i] == 34)
 	{
-		if (*s != c && (*(s + 1) == c || *(s + 1) == 0))
-			return (s + 1);
-		s++;
+		i++;
+		while (s[i] != 34)
+			i++;
+		i++;
 	}
-	return (s);
+	if (s[i] == 39)
+	{
+		i++;
+		while (s[i] != 39)
+			i++;
+		i++;
+	}
+	else
+		while (s[i] && s[i] != c && s[i] != 34 && s[i] != 39)
+			i++;
+	return (i);
 }
 
 char	**ft_split(char const *s, char c)
 {
 	int		i;
+	size_t	len;
 	int		n_subs;
 	char	**array;
 
@@ -76,10 +87,30 @@ char	**ft_split(char const *s, char c)
 		return (0);
 	while (i < n_subs)
 	{
-		array[i] = create_subs(s, c);
-		s = next_sub(s, c);
+		s += start(s, c);
+		len = calc_len(s, c);
+		array[i] = ft_substr(s, 0, len);
+		array[i] = ft_strtrim(array[i], "\'\"");
+		s += len;
 		i++;
 	}
 	array[i] = 0;
 	return (array);
 }
+
+/*int	main(void)
+{
+	int	i;
+	char *s = "grep \"rato' asda' \"\"";
+	char **array;
+
+	i = 0;
+	printf("%s\n", s);
+	array = ft_split(s, ' ');
+	while (array[i])
+	{
+		printf("%s\n", array[i]);
+		i++;
+	}
+	return (0);
+}*/
